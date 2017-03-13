@@ -1,0 +1,16 @@
+$s__navigation: 54px;
+
+.navigation {
+	height: $s__navigation;
+	width: 100%;
+	background: black;
+
+	.navigation__logo {
+		height: $s__navigation * 0.9;
+		margin-top: $s__navigation * 0.05;
+	}
+
+	&.navigation--open {
+		height: 100vh;
+	}
+}
