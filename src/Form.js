@@ -16,10 +16,11 @@ export default class Form extends Component {
 		this._handleName = this._handleName.bind(this);
 		this._handleEmail = this._handleEmail.bind(this);
 		this._handlePhone = this._handlePhone.bind(this);
+		this._handleChange = this._handleChange.bind(this);
+		this._handleSubmit = this._handleSubmit.bind(this);
 	}
 
-	_handleName(e) {
-		var name = e.target.value;
+	_handleName(name) {
 		var validate = true;
 		var character = name.charAt(0);
 		if (character != character.toUpperCase()) {
@@ -29,54 +30,62 @@ export default class Form extends Component {
 		while (i <= name.length) {
 			character = name.charAt(i);
 			if (character != character.toLowerCase()) {
-				alert('Name not in correct format');
 				validate = false;
 				break;
 			}
 			i = i + 1;
 		}
-		const field = e.target.name;
-		if (validate) {
-			this.setState({
-		    	[name]: e.target.value,
-		    });
+		if (validate == false) {
+			alert('Name not in correct format');
 		}
 	}
 
-	_handleEmail(e) {
-		var email = e.target.value;
+	_handleEmail(email) {
 		var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     	var validate = re.test(email);
-		if (validate) {
-			this.setState({
-				email: e.target.value,
-			});
-		} else {
+		if (validate == false) {
 			alert('Email not in correct format');
-		}
+		} 
 	}
 
-	_handlePhone(e) {
-		var phone = e.target.value;
+	_handlePhone(phone) {
 		var re = /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/;
 		var validate = re.test(phone);
-		if (validate) {
-			this.setState({
-				phone: e.target.value,
-			});
-		} else {
-			alert('Phone number not in correct format');
-		}
+		if (validate == false) {
+			alert('Phone not in correct format');
+		} 
 	}
+
+	_handleSubmit(e) {
+		var firstName = this.state.firstName;
+		var lastName = this.state.lastName;
+		var email = this.state.email;
+		var phone = this.state.phone;
+
+		this._handleName(firstName);
+		this._handleName(lastName);
+		this._handleEmail(email);
+		this._handlePhone(phone);
+
+		e.preventDefault();
+	}
+
+	_handleChange(e) {
+		const field = e.target.name;
+    	this.setState({
+		    [field]: e.target.value,
+		});
+  	}
 
 	render() {
 		return (
-			<div className="field">
-				<Field header="First Name" name="firstName" handler={ this._handleName }/>
-				<Field header="Last Name" name="lastName" handler={ this._handleName }/>
-				<Field header="Email Address" name="email" handler={ this._handleEmail }/>
-				<Field header="Phone Number" name="phone" handler={ this._handlePhone }/>
-			</div>
+			<form onSubmit={this.handleSubmit}>
+				<Field header="First Name" name="firstName" handler={ this._handleChange }/>
+				<Field header="Last Name" name="lastName" handler={ this._handleChange }/>
+				<Field header="Email Address" name="email" handler={ this._handleChange }/>
+				<Field header="Phone Number" name="phone" handler={ this._handleChange }/>
+				<input type="submit" value="Submit" />
+			</form>
 		)
 	}
 }
