@@ -2,10 +2,8 @@
   height: 54px;
   width: 100%;
   background: black; }
-
-.navigation .navigation__logo {
-  height: 48.6px;
-  margin-top: 2.7px; }
-
-.navigation.navigation--open {
-  height: 100vh; }
+  .navigation .navigation__logo {
+    height: 48.6px;
+    margin-top: 2.7px; }
+  .navigation.navigation--open {
+    height: 100vh; }
