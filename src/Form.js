@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import request from 'superagent';
 
 require('./Form.css')
 
@@ -22,12 +23,16 @@ export default class Form extends Component {
 
 	_handleName(name, type) {
 		var validate = true;
-		var character = name.charAt(0);
-		if (character !== character.toUpperCase()) {
+		if (name === null) {
+			var character = null;
+		} else {
+			var character = name.charAt(0);
+		}
+		if (character === null || character !== character.toUpperCase()) {
 			validate = false;
 		}
 		var i = 1;
-		while (i <= name.length && validate !== false) {
+		while (validate !== false && i <= name.length) {
 			character = name.charAt(i);
 			if (character !== character.toLowerCase()) {
 				validate = false;
@@ -36,12 +41,13 @@ export default class Form extends Component {
 		}
 		if (validate === false) {
 			if (type === "first") {
-				console.log("hello")
+				alert('First name not in correct format');
 				this.setState({
 			    	firstName: null,
 				});
 			
 			} else if (type === "last") {
+				alert('Last name not in correct format');
 				this.setState({
 			    	lastName: null,
 				});
@@ -82,7 +88,14 @@ export default class Form extends Component {
 		this._handleEmail(email);
 		this._handlePhone(phone);
 
-		e.preventDefault();
+		request.post('http://webtier.christianle.com/v1/contact')
+			.send({ first: firstName, last: lastName, email: email, phone: phone, })
+			.end(function(err, res) {
+				if (err) {
+					console.log("Error while sending items to server.");
+				}
+			});
+
 	}
 
 	_handleChange(e) {
