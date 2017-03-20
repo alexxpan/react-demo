@@ -8,10 +8,10 @@ export default class Form extends Component {
 		super(props);
 
 		this.state = {
-			firstName: null,
-			lastName: null,
-			email: null,
-			phone: null,
+			firstName: '',
+			lastName: '',
+			email: '',
+			phone: '',
 		}
 
 		this._handleName = this._handleName.bind(this);
@@ -23,18 +23,16 @@ export default class Form extends Component {
 
 	_handleName(name, type) {
 		var validate = true;
-		if (name === null) {
-			var character = null;
-		} else {
-			var character = name.charAt(0);
-		}
-		if (character === null || character !== character.toUpperCase()) {
+		if (name.length === 0) {
 			validate = false;
 		}
-		var i = 1;
+		var i = 0;
 		while (validate !== false && i <= name.length) {
-			character = name.charAt(i);
-			if (character !== character.toLowerCase()) {
+			var character = name.charAt(i);
+			if (i === 0 && character !== character.toUpperCase()) {	
+				validate = false;
+			}
+			else if (character !== character.toLowerCase()) {
 				validate = false;
 			}
 			i += 1;
@@ -43,13 +41,13 @@ export default class Form extends Component {
 			if (type === "first") {
 				alert('First name not in correct format');
 				this.setState({
-			    	firstName: null,
+			    	firstName: '',
 				});
 			
 			} else if (type === "last") {
 				alert('Last name not in correct format');
 				this.setState({
-			    	lastName: null,
+			    	lastName: '',
 				});
 			}
 		}
@@ -61,7 +59,7 @@ export default class Form extends Component {
 		if (validate === false) {
 			alert('Email not in correct format');
 			this.setState({
-		    	email: null,
+		    	email: '',
 			});
 		} 
 	}
@@ -72,7 +70,7 @@ export default class Form extends Component {
 		if (validate === false) {
 			alert('Phone not in correct format');
 			this.setState({
-		    	phone: null,
+		    	phone: '',
 			});
 		} 
 	}
@@ -93,6 +91,8 @@ export default class Form extends Component {
 			.end(function(err, res) {
 				if (err) {
 					console.log("Error while sending items to server.");
+				} else {
+					console.log("Items successfully sent to server.");
 				}
 			});
 
