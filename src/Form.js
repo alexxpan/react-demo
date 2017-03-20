@@ -32,7 +32,7 @@ export default class Form extends Component {
 			if (i === 0 && character !== character.toUpperCase()) {	
 				validate = false;
 			}
-			else if (character !== character.toLowerCase()) {
+			if (i !== 0 && character !== character.toLowerCase()) {
 				validate = false;
 			}
 			i += 1;
